@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/<your-username>/flask-app-cicd.git', branch: 'main'
+                git url: 'https://github.com/suoton/ansible-team-11.git', branch: 'main'
             }
         }
         stage('Build and Package') {
