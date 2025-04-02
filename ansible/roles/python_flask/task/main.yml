@@ -1,0 +1,17 @@
+---
+- name: Install Python and pip
+  yum:
+    name:
+      - python3
+      - python3-pip
+    state: present
+  become: yes
+
+- name: Install Flask and dependencies
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+  loop:
+    - Flask==2.3.2
+    - psycopg2-binary==2.9.9
+  become: yes
