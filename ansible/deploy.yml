@@ -1,0 +1,15 @@
+---
+- name: Deploy PostgreSQL on DB server
+  hosts: db_servers
+  roles:
+    - postgresql
+
+- name: Deploy Flask app on app servers
+  hosts: app_servers
+  vars:
+    artifact_path: "/var/lib/jenkins/workspace/flask-app-cicd/app.tar.gz"
+    db_host: "<db-ec2-public-ip>"
+  roles:
+    - python_flask
+    - copy_app
+    - connect_db
