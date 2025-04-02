@@ -1,0 +1,16 @@
+---
+- name: Set environment variables for PostgreSQL connection
+  lineinfile:
+    path: /etc/environment
+    line: "{{ item.key }}={{ item.value }}"
+    state: present
+  loop:
+    - { key: "DB_HOST", value: "{{ db_host }}" }
+    - { key: "DB_NAME", value: "devopsdb" }
+    - { key: "DB_USER", value: "devops" }
+    - { key: "DB_PASS", value: "password" }
+  become: yes
+
+- name: Run Flask app in background
+  shell: nohup python3 /opt/flask_app/main.py &
+  become: yes
