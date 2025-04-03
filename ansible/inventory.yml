@@ -6,14 +6,14 @@ all:
         app_server1:
           ansible_host: 172.31.6.68
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
+          ansible_ssh_private_key_file: /home/ubuntu/.ssh/saturday.pem
         app_server2:
           ansible_host: 172.31.22.138
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
+          ansible_ssh_private_key_file: /home/ubuntu/.ssh/saturday.pem
     db_servers:
       hosts:
         postgresql:
           ansible_host: 172.31.23.25 
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
+          ansible_ssh_private_key_file: /home/ubuntu/.ssh/saturday.pem
