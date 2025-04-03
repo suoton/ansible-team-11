@@ -3,17 +3,17 @@ all:
   children:
     app_servers:
       hosts:
-        app_ec2_1:
-          ansible_host: <app-ec2-1-public-ip>
+        app_server1:
+          ansible_host: 172.31.6.68
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/<your-key>.pem
-        app_ec2_2:
-          ansible_host: <app-ec2-2-public-ip>
+          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
+        app_server2:
+          ansible_host: 172.31.22.138
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/<your-key>.pem
+          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
     db_servers:
       hosts:
-        db_ec2:
-          ansible_host: <db-ec2-public-ip>
+        postgresql:
+          ansible_host: 172.31.23.25
           ansible_user: centos
-          ansible_ssh_private_key_file: ~/.ssh/<your-key>.pem
+          ansible_ssh_private_key_file: ~/.ssh/saturday.pem
