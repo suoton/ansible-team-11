@@ -2,6 +2,7 @@
 - name: Install PostgreSQL
   yum:
     name:
+      - postgresql
       - postgresql-server
       - postgresql-contrib
     state: present
