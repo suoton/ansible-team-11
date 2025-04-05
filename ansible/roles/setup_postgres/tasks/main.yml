@@ -1,1 +1,37 @@
-
+---
+- name: Install PostgreSQL
+  yum:
+    name:
+      - postgresql-server
+      - postgresql-contrib
+    state: present
+- name: Initialize PostgreSQL
+  command: /usr/bin/postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/PG_VERSION
+- name: Start and enable PostgreSQL
+  systemd:
+    name: postgresql
+    state: started
+    enabled: true
+- name: Configure PostgreSQL to allow password auth
+  lineinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^host\s+all\s+all\s+127\.0\.0\.1/32\s+.*'
+    line: 'host    all             all             127.0.0.1/32            md5'
+- name: Listen on all interfaces
+  lineinfile:
+    path: /var/lib/pgsql/data/postgresql.conf
+    regexp: '^#?listen_addresses'
+    line: "listen_addresses = '*'"
+- name: Restart PostgreSQL
+  systemd:
+    name: postgresql
+    state: restarted
+- name: Create user and DB
+  become_user: postgres
+  shell: |
+    psql -c "CREATE USER devops WITH PASSWORD 'password';"
+    psql -c "CREATE DATABASE devopsdb OWNER devops;"
+  args:
+    creates: /var/lib/pgsql/data/base
