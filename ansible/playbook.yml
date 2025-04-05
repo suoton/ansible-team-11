@@ -1,1 +1,18 @@
+---
+- name: Deploy Flask App with PostgreSQL
+  hosts: appservers
+  become: yes
+  vars:
+    artifact_name: "flask_app_v1.tar.gz"  # Passed via Jenkins or CLI
+  roles:
+    - setup_python       # Installs Python, pip, Flask
+    - setup_postgres     # Installs & configures PostgreSQL
+    - deploy_app         # Extracts .tar.gz, installs app
+    - configure_app      # Sets env vars, config, starts app
+
+
+
+
+
+
 
