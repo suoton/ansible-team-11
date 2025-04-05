@@ -3,8 +3,6 @@
   yum:
     name:
       - postgresql
-      - postgresql-server
-      - postgresql-contrib
     state: present
   become: yes
 
