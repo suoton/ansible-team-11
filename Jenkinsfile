@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git url: 'https://github.com/YOUR_USERNAME/flask_jenkins_ansible_project.git', branch: 'main'
+                git url: 'https://github.com/suoton/ansible-team-11.git', branch: 'main'
             }
         }
         stage('Install Dependencies') {
