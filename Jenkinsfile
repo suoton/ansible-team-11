@@ -34,13 +34,12 @@ pipeline {
         }
         stage('Deploy with Ansible') {
             steps {
-                sshagent(['ansible-ssh-key']) {
-                    sh '''
-                        cd ansible
-                        ansible-playbook -i inventory/hosts playbook.yml \
-                            --extra-vars "artifact_name=${ARTIFACT}"
-                    '''
-                }
+                // Assuming Ansible is installed and configured on the agent
+                sh '''
+                    cd ansible
+                    ansible-playbook -i inventory/hosts playbook.yml \
+                        --extra-vars "artifact_name=${ARTIFACT}"
+                '''
             }
         }
     }
