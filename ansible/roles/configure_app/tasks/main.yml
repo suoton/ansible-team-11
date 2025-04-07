@@ -1,18 +1,5 @@
 ---
-- name: Set environment variables
-  copy:
-    dest: /etc/profile.d/flask_app.sh
-    content: |
-      export DB_HOST=localhost
-      export DB_NAME=devopsdb
-      export DB_USER=devops
-      export DB_PASS=password
-- name: Install app requirements
+- name: Install Flask
   pip:
-    requirements: /opt/flask_app/requirements.txt
+    name: Flask
     executable: pip3
-- name: Start Flask app
-  shell: |
-    nohup python3 /opt/flask_app/app.py > /opt/flask_app/flask.log 2>&1 &
-  args:
-    creates: /opt/flask_app/flask.log

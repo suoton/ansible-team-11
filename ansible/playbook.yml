@@ -1,14 +1,21 @@
 ---
-- name: Deploy Flask App with PostgreSQL
-  hosts: appservers
+- hosts: appservers
   become: yes
-  vars:
-    artifact_name: "flask_app_v1.tar.gz"  # Passed via Jenkins or CLI
+  tasks:
+    - name: Ensure python3-dnf is installed
+      dnf:
+        name: python3-dnf
+        state: present
+
+    - name: Ensure python3-requests is installed
+      dnf:
+        name: python3-requests
+        state: present
+
   roles:
-    - setup_python       # Installs Python, pip, Flask
-    - setup_postgres     # Installs & configures PostgreSQL
-    - deploy_app         # Extracts .tar.gz, installs app
-    - configure_app      # Sets env vars, config, starts app
+    - configure_app
+    - setup_postgres
+
 
 
 

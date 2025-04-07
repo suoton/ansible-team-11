@@ -1,37 +1,43 @@
+
 ---
-- name: Install PostgreSQL
+- name: Install PostgreSQL and its dependencies
   yum:
     name:
+      - postgresql
       - postgresql-server
       - postgresql-contrib
     state: present
-- name: Initialize PostgreSQL
-  command: /usr/bin/postgresql-setup initdb
-  args:
-    creates: /var/lib/pgsql/data/PG_VERSION
-- name: Start and enable PostgreSQL
+
+- name: Ensure PostgreSQL service is running
   systemd:
     name: postgresql
     state: started
-    enabled: true
-- name: Configure PostgreSQL to allow password auth
-  lineinfile:
-    path: /var/lib/pgsql/data/pg_hba.conf
-    regexp: '^host\s+all\s+all\s+127\.0\.0\.1/32\s+.*'
-    line: 'host    all             all             127.0.0.1/32            md5'
-- name: Listen on all interfaces
-  lineinfile:
-    path: /var/lib/pgsql/data/postgresql.conf
-    regexp: '^#?listen_addresses'
-    line: "listen_addresses = '*'"
-- name: Restart PostgreSQL
-  systemd:
-    name: postgresql
-    state: restarted
-- name: Create user and DB
-  become_user: postgres
-  shell: |
-    psql -c "CREATE USER devops WITH PASSWORD 'password';"
-    psql -c "CREATE DATABASE devopsdb OWNER devops;"
-  args:
-    creates: /var/lib/pgsql/data/base
+    enabled: yes
+
+- name: Create database
+  postgresql_db:
+    name: devopsdb
+    state: present
+    login_user: postgres
+    login_password: password  # Make sure this is correct
+    login_host: "172.31.22.138"  # This should be the IP address
+
+- name: Create database user
+  postgresql_user:
+    name: devops
+    password: password  # Update with the desired password
+    state: present
+    login_user: postgres
+    login_password: password  # Ensure this is also correct
+    login_host: "172.31.22.138"  # This should be the IP address  
+
+- name: Create database user
+  postgresql_user:
+    name: devops
+    password: password  # Update with the desired password
+    state: present
+    login_user: postgres
+    login_password: password  # Ensure this is also correct
+    login_host: "172.31.22.138"
+
+    
